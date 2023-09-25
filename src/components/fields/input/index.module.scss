@@ -1,0 +1,19 @@
+.input {
+  border: 2px solid var(--gray-border-200);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  outline: none;
+  width: 100%;
+}
+.wrapper{
+  position: relative;
+  width: 100%;
+}
+.close{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
+  width: 16px;
+  cursor: pointer;
+}

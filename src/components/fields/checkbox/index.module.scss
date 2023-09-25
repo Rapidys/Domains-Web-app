@@ -1,0 +1,40 @@
+/* CustomCheckbox.scss */
+
+.custom_checkbox {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px; /* Adjust the size of the checkbox */
+  margin-right: 10px;
+  border-radius: 10px;
+
+  input[type="checkbox"] {
+    display: none;
+  }
+
+  label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px; /* Size of the checkbox */
+    height: 20px; /* Size of the checkbox */
+    border-radius: 6px;
+    background-color: #fff;
+    border: 1px solid var(--gray-border-200);
+    &::after {
+      content: "\2713"; /* Checkmark icon (Unicode) */
+      font-size: 16px; /* Size of the checkmark icon */
+      color: white; /* Color of the checkmark icon */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none; /* Initially hidden */
+    }
+  }
+  input[type="checkbox"]:checked + label {
+    background-color: var(--green-500-color); /* Green background color when checked */
+  }
+  input[type="checkbox"]:checked + label::after {
+    display: block;
+  }
+}

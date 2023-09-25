@@ -1,0 +1,13 @@
+.link{
+    font-family: var(--font-medium);
+    color: var(--gray-color-500);
+    text-transform: capitalize;
+    margin-left: var(--medium_spacing);
+    &:first-child{
+        margin-left: 0;
+    }
+    &:hover{
+        color:var(--green-500-color);
+        transition: 0.5s;
+    }
+}

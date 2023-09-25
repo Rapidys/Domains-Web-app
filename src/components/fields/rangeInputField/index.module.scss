@@ -1,0 +1,18 @@
+
+.section{
+  width: 100%;
+  margin-top: 36px;
+}
+.input_wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.input{
+  width: 45% ;
+}
+.label{
+  font-size: 16px;
+  font-family: var(--font-medium);
+}

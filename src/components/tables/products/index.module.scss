@@ -1,0 +1,113 @@
+.product_item_toggler {
+    width: 40px;
+    height: 40px;
+    border-radius: 0.75rem;
+    border: 1px solid var(--gray-color-200);
+    background-color: var(--gray-color-100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        user-select: none;
+    }
+    &.active{
+        border-color:var(--green-500-color);
+        background-color: #fff;
+    }
+}
+.header{
+    margin-bottom: 2rem;
+}
+.product_Item{
+    border-bottom: 1px solid var(--gray-border-100);
+    padding: 15px 1.25rem;
+    border-radius: 10px;
+    position: relative;
+    &.active{
+        background-color: var(--gray-color-100);
+    }
+    &:hover{
+        background-color: var(--gray-color-100);
+    }
+}
+.buy{
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--green-500-color);
+    margin-left: 20px;
+    cursor: pointer;
+    transition: 0.5s;
+    color: #fff;
+    &.hovered{
+      width: auto;
+      padding: 0 10px;
+    }
+}
+
+.title{
+    margin-left: 20px;
+}
+.prices{
+    text-align: right;
+}
+.priceDollar{
+    color:var(--gray-color-500);
+    font-family: var(--font-regular);
+    font-size: 12px;
+}
+.priceGel{
+    color:var(--blue-color-700);
+    font-family: var(--font-medium);
+    font-size: 16px;
+}
+.more{
+    background-color: #fff;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-start;
+    border-radius: 10px;
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+
+    line-height: 1.25rem;
+
+    .more_title{
+        color: var(--gray-color-500);
+        font-size: 12px;
+    }
+    .value{
+        color: var(--gray-color-900);
+        font-size: 12px;
+    }
+}
+
+.sort_item_title{
+    color: var(--gray-color-800);
+    font-size: var(--font-sm);
+    font-family:var(--font-medium)
+}
+
+.sell_domain_wrapper{
+    margin-left: 1.25rem;
+}
+.sell_domain{
+    text-decoration: underline;
+    font-size: var(--font-sm);
+    font-family:var(--font-regular)
+}
+.sort_item{
+    margin-left: 1.25rem;
+    color: var(--gray-color-500);
+    font-size: var(--font-sm);
+    cursor: pointer;
+    font-family:var(--font-regular)
+
+}

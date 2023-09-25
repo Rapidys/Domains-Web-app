@@ -1,0 +1,127 @@
+/*:root {*/
+/*    --tooltip-text-color: white;*/
+/*    --tooltip-background-color: black;*/
+/*    --tooltip-margin: 30px;*/
+/*    --tooltip-arrow-size: 6px;*/
+/*}*/
+
+/* Wrapping */
+.Tooltip_Wrapper {
+    display: inline-block;
+    position: relative;
+}
+
+/* Absolute positioning */
+.Tooltip_Tip {
+    position: absolute;
+    border-radius: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 6px;
+    color: #fff;
+    background: #000;
+    font-size: 14px;
+    font-family: sans-serif;
+    line-height: 1;
+    z-index: 100;
+    white-space: nowrap;
+}
+
+/* CSS border triangles */
+.Tooltip_Tip::before {
+    content: " ";
+    left: 50%;
+    border: solid transparent;
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-width: 6px;
+    margin-left: calc(6px * -1);
+}
+
+/* Absolute positioning */
+.Tooltip_Tip.top {
+    top: calc(40px * -1);
+}
+/* CSS border triangles */
+.Tooltip_Tip.top::before {
+    top: 100%;
+    border-top-color:#000;
+}
+
+/* Absolute positioning */
+.Tooltip_Tip.right {
+    left: calc(100% + 30px);
+    top: 50%;
+    transform: translateX(0) translateY(-50%);
+}
+/* CSS border triangles */
+.Tooltip_Tip.right::before {
+    left: calc(6px * -1);
+    top: 50%;
+    transform: translateX(0) translateY(-50%);
+    border-right-color: #000;
+}
+
+/* Absolute positioning */
+.Tooltip_Tip.bottom {
+    bottom: calc(30px * -1);
+}
+/* CSS border triangles */
+.Tooltip_Tip.bottom::before {
+    bottom: 100%;
+    border-bottom-color: #000;
+}
+
+/* Absolute positioning */
+.Tooltip_Tip.left {
+    left: auto;
+    right: calc(100% + 30px);
+    top: 50%;
+    transform: translateX(0) translateY(-50%);
+}
+/* CSS border triangles */
+.Tooltip_Tip.left::before {
+    left: auto;
+    right: calc(6px * -2);
+    top: 50%;
+    transform: translateX(0) translateY(-50%);
+    border-left-color: #000;
+}
+
+.thumb{
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    outline: none;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: #fff;
+    border:2px solid var(--green-500-color);
+    cursor: pointer;
+    position: absolute;
+    z-index: 5;
+}
+
+
+.thumb_blur{
+    position: absolute;
+    border-radius: 50%;
+    width:25px;
+    height: 25px;
+    transition: 0.2s;
+    background-color: transparent;
+    z-index: 3;
+}
+
+.thumb:hover{
+    .thumb_blur{
+        transform: scale(1.50);
+        background-color: rgba(153, 204, 102, 0.45);
+    }
+}
