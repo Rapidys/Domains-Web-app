@@ -1,4 +1,14 @@
 .wrapper{
   height: 180px;
   width: 100%;
+  background-image: url("../../../../src/assets/images/suggestions/buyEndSell.png");
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+   .text{
+    font-family: var(--font-medium);
+    font-size:clamp(18px, 36px , 36px);
+    color: #fff;
+  }
 }

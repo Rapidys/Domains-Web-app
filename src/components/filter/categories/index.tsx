@@ -10,21 +10,22 @@ interface category {
 
 interface ICategories {
     categories: category[],
-    handleChange: (id: number) => void
+    onChange: (id: number) => void,
+    title:string
 }
 
-const Categories: FC<ICategories> = ({categories, handleChange}) => {
+const Categories: FC<ICategories> = ({categories, onChange,title}) => {
     return (
         <div className={s.wrapper}>
             <div className={s.title}>
-                კატეგორიები
+                {title}
             </div>
             <div>
                 {categories.map((item) => {
                     return (
                         <div key={item.id} className={s.item}>
                             <Checkbox id={item.id.toString()} label={item.displayName} checked={item.checked}
-                                      onChange={() => handleChange(item.id)}/>
+                                      onChange={() => onChange(item.id)}/>
                         </div>
                     )
                 })}

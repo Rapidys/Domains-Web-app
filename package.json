@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "ENVIRONMENT=./env.development next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "ENVIRONMENT=./env.production next start",
     "lint": "next lint"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-slider": "^2.0.6",
+    "react-spinners": "^0.13.8",
     "swr": "^2.2.2",
     "typescript": "5.2.2"
   },

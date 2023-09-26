@@ -10,10 +10,11 @@ interface IMultiRangeSlider {
     max: number,
     maxNumber: number,
     onChange: ({min, max}: { min: number, max: number }) => void,
+    onAfterChange?: () => void,
 }
 
 
-const MultiRangeSlider: FC<IMultiRangeSlider> = ({min = 0, max, maxNumber = 10, onChange}) => {
+const MultiRangeSlider: FC<IMultiRangeSlider> = ({min = 0, max, maxNumber = 10, onChange,onAfterChange}) => {
 
     return (
         <div className={s.container}>
@@ -22,8 +23,9 @@ const MultiRangeSlider: FC<IMultiRangeSlider> = ({min = 0, max, maxNumber = 10, 
                 trackClassName={s.track}
                 max={maxNumber}
                 onChange={(values) => onChange({min: values[0], max: values[1]})}
-                defaultValue={[min, max]}
+                defaultValue={[+min, +max]}
                 ariaLabel={['Lower thumb', 'Upper thumb']}
+                onAfterChange = {onAfterChange}
                 ariaValuetext={state => `Thumb value ${state.valueNow}`}
                 renderThumb={(props, state) => (
                     <Tooltip {...props}  content={state.valueNow} direction={'top'} key = {props.key} ref = {(props.ref as any)} className={s.thumb}>

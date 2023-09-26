@@ -1,15 +1,15 @@
 import axios from 'axios';
 
-const axiosInstance = (handleSetError?:any,handleLogout?:() => void) => {
+const axiosInstance = () => {
     const instance = axios.create({
-        baseURL: process.env["BASE_URL "],
+        baseURL: process.env.NEXT_API_BASE_URL,
     });
 
     instance.interceptors.response.use(
         (response) => {
             const { errorMessage ,status } = response?.data
 
-            if(response.status === 200 && errorMessage){
+            if(response.status === 200){
                 // handleSetError(errorMessage);
             }
             return response;
@@ -20,20 +20,15 @@ const axiosInstance = (handleSetError?:any,handleLogout?:() => void) => {
             const { Message ,errorMessage } = error?.response?.data
 
             if(status === 401){
-                localStorage.removeItem('token')
-                // handleSetError(Message);
-                // handleLogout()
+                //remove token
                 return Promise.reject(error.response.data);
             }
 
             if (error.response) {
-                // handleSetError(Message);
                 return Promise.reject(error.response.data);
             } else if (error.request) {
-                // handleSetError(Message);
                 return Promise.reject('Network Error');
             } else {
-                // handleSetError(Message);
                 return Promise.reject(error.message);
             }
         }

@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useState} from 'react';
 import s from './index.module.scss'
 import cart_white from 'src/assets/images/cart_white.png'
 import arrow from 'src/assets/images/arrow.svg'
@@ -10,17 +10,15 @@ interface IProductItem {
     price: number,
     startDate:string,
     endDate:string,
-    isLast:boolean,
-    newLimit:() => void
+    id:number,
 }
 
-const ProductItem = ({title, price,startDate,endDate,isLast,newLimit}: IProductItem) => {
+const ProductItem = ({title, price,startDate,endDate,id}: IProductItem) => {
 
 
     const [isHovered, setHovered] = useState(false)
     const [openMore,setOpenMore] = useState(false)
 
-    const cardRef :any= useRef()
     const handleMouseEnter = () => {
         setHovered(true)
     }
@@ -29,22 +27,9 @@ const ProductItem = ({title, price,startDate,endDate,isLast,newLimit}: IProductI
         setOpenMore(!openMore)
     }
 
-    useEffect(() => {
-        if (!cardRef?.current) return;
-
-        const observer = new IntersectionObserver(([entry]) => {
-            if (isLast && entry.isIntersecting) {
-                newLimit();
-                observer.unobserve(entry.target);
-            }
-        });
-
-        observer.observe(cardRef.current);
-    }, [isLast]);
-
 
     return (
-        <div className={['w-full flex-col justify_between items_center',s.product_Item,openMore ? s.active:''].join(' ')} ref={cardRef}>
+        <div className={['w-full flex-col justify_between items_center',s.product_Item,openMore ? s.active:''].join(' ')}>
             <div className={'w-full flex justify_between items_center'}
                  onMouseEnter={handleMouseEnter}
                  onMouseLeave={() => setHovered(false)}
@@ -52,6 +37,7 @@ const ProductItem = ({title, price,startDate,endDate,isLast,newLimit}: IProductI
                 <div className={'flex items_center cursor_pointer'}
                      onClick = {handleOpenMore}
                 >
+                    {/*<span>{id}</span>*/}
                     <div className={[s.product_item_toggler,openMore ? s.active : ''].join(' ')}>
                         <Image src={arrow} alt = {'#'}/>
                     </div>

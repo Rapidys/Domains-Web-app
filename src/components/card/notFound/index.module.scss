@@ -1,0 +1,25 @@
+.wrapper {
+  minWidth: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../../../assets/images/notfound.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-height: 200px;
+  padding: 0 40px;
+}
+
+.title{
+  color:#696974;
+  font-family: var(--font-medium);
+  font-size: 18px;
+  text-align: center;
+}
+.desc{
+  color:#92929D;
+  font-family: var(--font-medium);
+  font-size: 14px;
+  text-align: center;
+}

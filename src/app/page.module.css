@@ -19,3 +19,16 @@
 .domain_list{
   width: 70%;
 }
+
+@media screen and (max-width: 769px) {
+  .product_wrapper{
+    flex-direction: column;
+    width: 100%;
+  }
+  .filter{
+    display: none;
+  }
+  .domain_list{
+    width: 100%;
+  }
+}

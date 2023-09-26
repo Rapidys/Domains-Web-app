@@ -1,32 +1,33 @@
 import styles from './page.module.css'
 import Suggestions from "src/components/carousels/suggestions";
-import ProductTable, {data} from "src/components/tables/products";
-import axios, {AxiosResponse} from "axios";
+import ProductTable from "src/components/tables/products";
 import Filter from "src/components/filter";
 import s from './page.module.css'
+import {getDomains, getDomainZones, getFilterReferences} from "src/services/domains";
+import DomainsContextProvider from "src/context/domainsContext/DomainsContextProvider";
 
-async function getData():Promise<AxiosResponse>{
-    return await axios.get<data>('http://localhost:3000/api/domains?page=1')
-}
+
 export default async function Home() {
 
-    const domains = await getData()
-
-
+    const domains = await getDomains()
+    const references = await getFilterReferences()
+    const domainZones = await getDomainZones()
 
     return (
     <main className={styles.main}>
         <div className = {'container'}>
             <Suggestions />
 
-            <div className={s.product_wrapper}>
-                <div className = {s.filter}>
-                    <Filter />
+            <DomainsContextProvider Products={domains.data} references = {references} domainZones = {domainZones}>
+                <div className={s.product_wrapper}>
+                    <div className = {s.filter}>
+                        <Filter />
+                    </div>
+                    <div className={s.domain_list}>
+                        <ProductTable />
+                    </div>
                 </div>
-                <div className={s.domain_list}>
-                    <ProductTable data={domains.data} />
-                </div>
-            </div>
+            </DomainsContextProvider>
         </div>
     </main>
   )

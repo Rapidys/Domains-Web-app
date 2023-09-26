@@ -15,9 +15,7 @@
         background-color: #fff;
     }
 }
-.header{
-    margin-bottom: 2rem;
-}
+
 .product_Item{
     border-bottom: 1px solid var(--gray-border-100);
     padding: 15px 1.25rem;
@@ -89,25 +87,3 @@
     }
 }
 
-.sort_item_title{
-    color: var(--gray-color-800);
-    font-size: var(--font-sm);
-    font-family:var(--font-medium)
-}
-
-.sell_domain_wrapper{
-    margin-left: 1.25rem;
-}
-.sell_domain{
-    text-decoration: underline;
-    font-size: var(--font-sm);
-    font-family:var(--font-regular)
-}
-.sort_item{
-    margin-left: 1.25rem;
-    color: var(--gray-color-500);
-    font-size: var(--font-sm);
-    cursor: pointer;
-    font-family:var(--font-regular)
-
-}

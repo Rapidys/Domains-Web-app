@@ -5,9 +5,13 @@ import Input from "src/components/fields/input";
 import RangeInputField from "src/components/fields/rangeInputField";
 import Categories from "src/components/filter/categories";
 import axios from "axios";
+import {getDomains, getFilterReferences} from "src/services/domains";
+import {useDomainContext} from "src/context/domainsContext/DomainsContextProvider";
+import {useDebouncedValue} from "src/helpers/hooks/useDebouncedValue";
+import useDebouncedCallback from "src/helpers/useDebounce";
 
 
-interface IReference {
+export interface IReference {
     id:number,
     displayName:string,
     checked?:boolean | undefined
@@ -15,74 +19,71 @@ interface IReference {
 const Filter = () => {
 
 
-    const [data,setData] = useState<IReference[]>([])
-    // const [checkedItems,setCheckedItems] = useState()
-    const [state, setState] = useState({
-        name: '',
-        priceValueFrom: 0,
-        priceValueTo: 15000,
-        symbolsValueFrom:0,
-        symbolsValueTo:26,
-    })
+    const { handleChangeFilters , filters ,getProducts ,handleChangeCategory , handleChangeDomZone} = useDomainContext()
 
-    const getDate = async() => {
-        return await axios.get<IReference[]>('http://localhost:3000/api/references')
-    }
-
-    useEffect(() => {
-        getDate().then(res => {
-            const recreated = res?.data.map(item => ({...item,checked:false}))
-            setData(recreated)
-        })
-    },[])
 
     const handleChange = (id:number) => {
-        const copiedData = [...data]
+        const copiedData = [...filters.categoryIds]
         const findElementIndex = copiedData.findIndex((el) => el.id === id)
         copiedData[findElementIndex].checked = !copiedData[findElementIndex].checked
-        setData(copiedData)
+        handleChangeCategory(copiedData)
     }
 
-    console.log(data)
+    const handleDomainZone = (id:number) => {
+        const copiedData = [...filters.domainZones]
+        const findElementIndex = copiedData.findIndex((el) => el.id === id)
+        copiedData[findElementIndex].checked = !copiedData[findElementIndex].checked
+        handleChangeDomZone(copiedData)
+    }
+
 
     return (
         <Card>
             <Input
                 placeholder={'სახელით ძიება...'}
-                value={state.name}
+                value={filters.name}
                 name={'name'}
-                handleClear={() => setState({...state, name: ''})}
-                onChange={(e) => setState({...state, name: e.target.value})}
+                handleClear={() => handleChangeFilters('','name')}
+                onChange={(e) => {
+                    handleChangeFilters(e.target.value, 'name')
+                }}
                 withClear
             />
 
             <RangeInputField
                 title = {'ფასი'}
-                min={state.priceValueFrom}
-                max={state.priceValueTo}
+                min={(filters.price.valueFrom as number)}
+                max={(filters.price.valueTo as number)}
                 onSliderChange={({min, max}: any) => {
-                    setState((prevState) => ({...prevState, priceValueFrom: min, priceValueTo: max}))
+                   handleChangeFilters(min,'valueFrom','price')
+                   handleChangeFilters(max,'valueTo','price')
                 }}
                 handleChange={(e, type) => {
-                    setState((prevState) => ({...prevState, [type]: e.target.value}))
+                    handleChangeFilters(e.target.value,type,'price')
                 }}
                 maxNumber = {15000}
+                onAfterChange = {getProducts}
             />
 
             <RangeInputField
                 title = {'სიმბოლოების რაოდენობა'}
-                min={state.symbolsValueFrom}
-                max={state.symbolsValueTo}
+                min={(filters.symbols.valueFrom as number)}
+                max={(filters.symbols.valueTo as number)}
                 onSliderChange={({min, max}: any) => {
-                    setState((prevState) => ({...prevState, symbolsValueFrom: min, symbolsValueTo: max}))
+                    handleChangeFilters(min,'valueFrom','symbols')
+                    handleChangeFilters(max,'valueTo','symbols')
                 }}
                 handleChange={(e, type) => {
-                    setState((prevState) => ({...prevState, [type]: e.target.value}))
+                    handleChangeFilters(e.target.value,type,'symbols')
                 }}
                 maxNumber = {26}
+                onAfterChange = {getProducts}
             />
 
-            <Categories categories={data} handleChange = {handleChange}/>
+            <Categories categories={filters.categoryIds} onChange = {handleChange} title={'კატეგორიები'}/>
+
+
+            <Categories categories={filters.domainZones} onChange = {handleDomainZone} title={'დომენის ზონა'}/>
 
 
         </Card>

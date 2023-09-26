@@ -1,74 +1,80 @@
 'use client'
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import ProductItem from "src/components/tables/products/productItem";
 import Card from "src/components/card";
 import Link from "next/link";
 import s from './index.module.scss';
-import axios, {AxiosResponse} from "axios";
+import {UseInfiniteScroll} from "src/helpers/hooks/useInfiniteScroll";
+import {getDomains} from "src/services/domains";
+import {useDomainContext} from "src/context/domainsContext/DomainsContextProvider";
+import SortTypes from "src/components/filter/sort";
+import NotFoundData from "src/components/card/notFound";
+import Loading from "src/components/loading/loading";
+
 export interface IProductTable {
     id: number,
     price: number,
     domainName: string,
     startDate: string,
-    endDate:string
+    endDate: string
 }
-export type data = { data? : IProductTable[] }
+
+export type data = { Products?: IProductTable[] }
 
 export const revalidate = 100;
-const getData = async (page:number):Promise<AxiosResponse> => {
-    return await axios.get<data>(`http://localhost:3000/api/domains?page=${page}`)
-}
-const ProductTable:FC<data> = ({data}) => {
-    const [page,setPage] = useState(1)
-    const [products,setProducts] = useState(data)
 
+const ProductTable: FC<data> = () => {
 
+    const triggerRef: any = useRef()
 
-    useEffect(() => {
-        if(page > 1){
-            getData(page).then(res => {
-                setProducts([...products!,...res.data,])
-            })
+    const {products, handleSetProducts, filters, isLast, page, incrementPage, handleChangeSortType} = useDomainContext()
+
+    const {loading} = UseInfiniteScroll({
+        apiCall: getDomains,
+        ref: triggerRef,
+        isLast: isLast,
+        page: page,
+        incrementPage: incrementPage,
+        payload: {
+            page: 1,
+            priceFrom: filters.price?.valueFrom,
+            priceTo: filters.price?.valueTo,
+            domainName: filters.name,
+            sortType: filters.sortType,
+            symbolsFrom: filters.symbols?.valueFrom,
+            symbolsTo: filters.symbols?.valueTo,
+            categoryIds: filters?.chosenCategories,
+            domainZones: filters.chosenDomainZones,
+        },
+        callBack: (response) => {
+            handleSetProducts(response)
         }
-    },[page])
+    })
 
-    if(!data){
-        return <div>loading...</div>
-    }
+
     return (
         <>
-            <div className={['flex justify_between items_center w-full',s.header].join(' ')}>
-                <div className={'flex'}>
-                    <div className = {s.sort_item_title}>
-                        სორტირება:
-                    </div>
-                    <ul className={'flex'}>
-                        <li className={s.sort_item}>დამატებითი თარიღით</li>
-                        <li className={s.sort_item}>ვადის ამოწურვით</li>
-                        <li className={s.sort_item}>ფასით</li>
-                        <li className={s.sort_item}>ანბანით</li>
-                    </ul>
-                </div>
-             <div className = {s.sell_domain_wrapper}>
-                 <Link href={'/'} className={s.sell_domain}>
-                     როგორ გავყიდოთ დომენი?
-                 </Link>
-             </div>
-            </div>
+            <SortTypes handleChangeSortType = { handleChangeSortType }/>
+
             <Card>
-                {products?.map((item:IProductTable,index) => {
+                {!products && (
+                    <NotFoundData />
+                )}
+                {products?.map((item: IProductTable, index) => {
                     return (
                         <ProductItem
-                            title = {item.domainName}
-                            price = {item.price}
-                            startDate = {item.startDate}
-                            endDate = {item.endDate}
-                            isLast={index === products.length - 1}
-                            newLimit={() => setPage(page + 1)}
+                            title={item.domainName}
+                            price={item.price}
+                            startDate={item.startDate}
+                            endDate={item.endDate}
+                            id={item.id}
+                            key={item.id}
                         />
                     )
                 })}
+                {loading && <Loading />}
             </Card>
+            <div ref={triggerRef} style={{height: '10px'}}></div>
 
         </>
     );

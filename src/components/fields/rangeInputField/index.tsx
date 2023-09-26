@@ -12,9 +12,10 @@ interface IRangeInputField {
     max: number,
     maxNumber: number,
     title:string,
+    onAfterChange?:() => void
 }
 
-const RangeInputField: FC<IRangeInputField> = ({ handleChange, onSliderChange,title, min,maxNumber, max}) => {
+const RangeInputField: FC<IRangeInputField> = ({ handleChange,onAfterChange, onSliderChange,title, min,maxNumber, max}) => {
     return (
         <div className={'w-full'}>
             <div className={s.section}>
@@ -26,11 +27,13 @@ const RangeInputField: FC<IRangeInputField> = ({ handleChange, onSliderChange,ti
                         value={min}
                         name={'priceFrom'}
                         wrapperClassName={s.input}
+                        type = {'number'}
                         onChange={(e) => handleChange(e, 'valueFrom')}
                     />
                     <Input
                         value={max}
                         name={'priceTo'}
+                        type = {'number'}
                         wrapperClassName={s.input}
                         onChange={(e) => handleChange(e, 'valueTo')}
                     />
@@ -41,6 +44,7 @@ const RangeInputField: FC<IRangeInputField> = ({ handleChange, onSliderChange,ti
                 max={max}
                 onChange={onSliderChange}
                 maxNumber = {maxNumber}
+                onAfterChange = {onAfterChange}
             />
         </div>
     );
