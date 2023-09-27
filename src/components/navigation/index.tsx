@@ -14,7 +14,7 @@ const Navigation = ({navItems}: { navItems: NavItem[] }) => {
     const pathname = usePathname()
 
     return (
-        <ul className = {'flex items-center justify_between'}>
+        <ul className = {s.navigation}>
             {navItems.map((item) => {
                 return (
                     <li key = {item.id} className={s.link}>

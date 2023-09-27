@@ -3,4 +3,22 @@
   background: #FFFFFF 0% 0% no-repeat padding-box;
   box-shadow: 0 3px 6px #00000005;
   margin-top: 79px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+@media(max-width: 769px){
+  .wrapper{
+    margin-top: 270px;
+  }
+  .nav{
+    flex-direction: column;
+  }
 }

@@ -3,7 +3,7 @@ import React from 'react';
 import Link from "next/link";
 import s from  './index.module.scss'
 
-const SortTypes = ({handleChangeSortType}:{handleChangeSortType:(type:number) => void}) => {
+const SortTypes = ({handleChangeSortType,sortTypes}:{handleChangeSortType:(type:number) => void,sortTypes:any[]}) => {
     return (
         <div className={['flex justify_between items_center w-full', s.header].join(' ')}>
             <div className={'flex'}>
@@ -11,10 +11,11 @@ const SortTypes = ({handleChangeSortType}:{handleChangeSortType:(type:number) =>
                     სორტირება:
                 </div>
                 <ul className={'flex'}>
-                    <li className={s.sort_item} onClick={() => handleChangeSortType(1)}>დამატებითი თარიღით</li>
-                    <li className={s.sort_item} onClick={() => handleChangeSortType(2)}>ვადის ამოწურვით</li>
-                    <li className={s.sort_item} onClick={() => handleChangeSortType(3)}>ფასით</li>
-                    <li className={s.sort_item} onClick={() => handleChangeSortType(5)}>ანბანით</li>
+                    {sortTypes.map(item => {
+                        return (
+                            <li className={s.sort_item} onClick={() => handleChangeSortType(item.id)}>დამატების თარიღით</li>
+                        )
+                    })}
                 </ul>
             </div>
             <div className={s.sell_domain_wrapper}>

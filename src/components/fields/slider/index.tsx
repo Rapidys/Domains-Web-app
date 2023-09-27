@@ -24,6 +24,7 @@ const MultiRangeSlider: FC<IMultiRangeSlider> = ({min = 0, max, maxNumber = 10, 
                 max={maxNumber}
                 onChange={(values) => onChange({min: values[0], max: values[1]})}
                 defaultValue={[+min, +max]}
+                value={[min,max]}
                 ariaLabel={['Lower thumb', 'Upper thumb']}
                 onAfterChange = {onAfterChange}
                 ariaValuetext={state => `Thumb value ${state.valueNow}`}

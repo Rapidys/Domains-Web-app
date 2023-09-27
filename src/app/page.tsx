@@ -5,6 +5,7 @@ import Filter from "src/components/filter";
 import s from './page.module.css'
 import {getDomains, getDomainZones, getFilterReferences} from "src/services/domains";
 import DomainsContextProvider from "src/context/domainsContext/DomainsContextProvider";
+import CartContextProvider from "src/context/cartContext/CartContextProvider";
 
 
 export default async function Home() {
@@ -19,14 +20,14 @@ export default async function Home() {
             <Suggestions />
 
             <DomainsContextProvider Products={domains.data} references = {references} domainZones = {domainZones}>
-                <div className={s.product_wrapper}>
-                    <div className = {s.filter}>
-                        <Filter />
+                    <div className={s.product_wrapper}>
+                        <div className = {s.filter}>
+                            <Filter  onFind = {false}/>
+                        </div>
+                        <div className={s.domain_list}>
+                            <ProductTable />
+                        </div>
                     </div>
-                    <div className={s.domain_list}>
-                        <ProductTable />
-                    </div>
-                </div>
             </DomainsContextProvider>
         </div>
     </main>

@@ -18,8 +18,8 @@ const NavItems2 = [
 ]
 const HeaderNavigation = () => {
     return (
-        <div className = {['w-full flex justify_center items_center',s.wrapper].join(' ')}>
-            <nav className = {'container flex justify_between'}>
+        <div className = {[s.wrapper].join(' ')}>
+            <nav className = {`container ${s.nav}`}>
                 <Navigation navItems={NavItems}/>
                 <Navigation navItems={NavItems2}/>
             </nav>

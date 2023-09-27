@@ -11,3 +11,20 @@
         transition: 0.5s;
     }
 }
+.navigation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+@media(max-width: 769px){
+    .navigation{
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .link{
+        margin-left:0;
+        padding:10px 20px;
+        width: 100%;
+    }
+}

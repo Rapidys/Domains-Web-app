@@ -4,5 +4,15 @@
   background: #FFFFFF 0% 0% no-repeat padding-box;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 1.25rem;
+}
+
+@media(max-width: 769px){
+  .card{
+    padding:0;
+  }
+}
+.withPadding{
   padding: 1.25rem;
 }

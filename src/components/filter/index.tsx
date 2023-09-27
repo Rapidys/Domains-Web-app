@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Card from "src/components/card";
 import Input from "src/components/fields/input";
 import RangeInputField from "src/components/fields/rangeInputField";
@@ -16,7 +16,11 @@ export interface IReference {
     displayName:string,
     checked?:boolean | undefined
 }
-const Filter = () => {
+
+interface IFilter {
+    onFind:boolean
+}
+const Filter:FC<IFilter> = ({onFind }) => {
 
 
     const { handleChangeFilters , filters ,getProducts ,handleChangeCategory , handleChangeDomZone} = useDomainContext()
@@ -38,7 +42,7 @@ const Filter = () => {
 
 
     return (
-        <Card>
+        <Card withPadding>
             <Input
                 placeholder={'სახელით ძიება...'}
                 value={filters.name}
@@ -62,7 +66,7 @@ const Filter = () => {
                     handleChangeFilters(e.target.value,type,'price')
                 }}
                 maxNumber = {15000}
-                onAfterChange = {getProducts}
+                onAfterChange = {!onFind ? getProducts : () => null}
             />
 
             <RangeInputField
@@ -77,7 +81,7 @@ const Filter = () => {
                     handleChangeFilters(e.target.value,type,'symbols')
                 }}
                 maxNumber = {26}
-                onAfterChange = {getProducts}
+                onAfterChange = {!onFind ? getProducts : () => null}
             />
 
             <Categories categories={filters.categoryIds} onChange = {handleChange} title={'კატეგორიები'}/>

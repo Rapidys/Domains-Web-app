@@ -10,6 +10,11 @@ import {useDomainContext} from "src/context/domainsContext/DomainsContextProvide
 import SortTypes from "src/components/filter/sort";
 import NotFoundData from "src/components/card/notFound";
 import Loading from "src/components/loading/loading";
+import Select from "src/components/fields/select";
+import Filter from "src/components/filter/filterSmallResolution";
+import FilterMobile from "src/components/filter/filterSmallResolution";
+import {useMediaQuery} from "react-responsive";
+import SelectInput from "src/components/fields/select/selectInput";
 
 export interface IProductTable {
     id: number,
@@ -21,13 +26,24 @@ export interface IProductTable {
 
 export type data = { Products?: IProductTable[] }
 
+const sortTypes = [
+    {id: 1, displayName: 'დამატების თარიღით'},
+    {id: 2, displayName: 'ვადის ამოწურვით'},
+    {id: 3, displayName: 'ფასით'},
+    {id: 5, displayName: 'ანბანით'},
+]
+
 export const revalidate = 100;
 
 const ProductTable: FC<data> = () => {
 
     const triggerRef: any = useRef()
+    const isTabletOrMobile = useMediaQuery({query: '(max-width: 769px)'})
 
     const {products, handleSetProducts, filters, isLast, page, incrementPage, handleChangeSortType} = useDomainContext()
+
+    const [isOpen, setOpen] = useState(false)
+
 
     const {loading} = UseInfiniteScroll({
         apiCall: getDomains,
@@ -54,11 +70,20 @@ const ProductTable: FC<data> = () => {
 
     return (
         <>
-            <SortTypes handleChangeSortType = { handleChangeSortType }/>
+            <SortTypes handleChangeSortType={handleChangeSortType} sortTypes={sortTypes}/>
 
+            {isTabletOrMobile && (
+                <div className={s.sort_filter}>
+                    <Select title={'ფილტრაცია'} onClick={() => setOpen(true)}/>
+                    <SelectInput options={sortTypes} defaultValue={'სორტირება'} onChange={handleChangeSortType}/>
+                </div>
+
+            )}
+
+            <FilterMobile open={isOpen} handleClose={() => setOpen(false)}/>
             <Card>
                 {!products && (
-                    <NotFoundData />
+                    <NotFoundData/>
                 )}
                 {products?.map((item: IProductTable, index) => {
                     return (
@@ -69,10 +94,11 @@ const ProductTable: FC<data> = () => {
                             endDate={item.endDate}
                             id={item.id}
                             key={item.id}
+                            item = {item}
                         />
                     )
                 })}
-                {loading && <Loading />}
+                {loading && <Loading/>}
             </Card>
             <div ref={triggerRef} style={{height: '10px'}}></div>
 

@@ -3,6 +3,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {getDomains} from "src/services/domains";
 import useDebouncedCallback from "src/helpers/useDebounce";
 import filter, {IReference} from "src/components/filter";
+import { useMediaQuery } from 'react-responsive'
 
 interface DomainContextType {
     products: any[];
@@ -17,6 +18,24 @@ interface DomainContextType {
     incrementPage: () => void,
     isLast: boolean,
     page: number,
+}
+
+export interface IFilters  {
+    name: string,
+    sortType: number,
+    domainZone:string,
+    categoryIds: IReference[],
+    chosenDomainZones: string[] | null,
+    domainZones: IReference[],
+    chosenCategories:  string[] | null,
+    price: {
+        valueFrom: string,
+        valueTo: string,
+    },
+    symbols: {
+        valueFrom: string,
+        valueTo: string,
+    }
 }
 
 const DomainContext = React.createContext<DomainContextType>({
@@ -50,10 +69,11 @@ const DomainsContextProvider = ({children, Products, references,domainZones}: {
     domainZones: any[],
 }) => {
 
+    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 769px)' })
     const [isLast, setLast] = useState(false)
     const [page, setPage] = useState(1)
     const [products, setProducts] = useState<any[]>(Products)
-    const [filters, setFilters] = useState({
+    const [filters, setFilters] = useState<IFilters>({
         name: '',
         sortType: 0,
         domainZone: '',
@@ -148,17 +168,24 @@ const DomainsContextProvider = ({children, Products, references,domainZones}: {
 
 
     useEffect(() => {
-        if (filters?.sortType || filters?.categoryIds || filters?.chosenDomainZones) {
+        if ((filters?.categoryIds || filters?.chosenDomainZones) && !isTabletOrMobile) {
             setLast(false) // return pagination to initalValue
             getProducts()
         }
     }, [filters?.sortType, filters?.categoryIds,filters?.chosenDomainZones])
 
     useEffect(() => {
-        if (filters?.name) {
+        if(filters?.sortType){
+            setLast(false) // return pagination to initalValue
+            getProducts()
+        }
+    },[filters?.sortType])
+
+    useEffect(() => {
+        if (filters?.name || (filters?.price || filters.symbols) && !isTabletOrMobile) {
             debouncedGetProducts()
         }
-    }, [filters?.name])
+    }, [filters?.name,filters?.price?.valueFrom,filters?.price.valueTo,filters?.symbols.valueFrom,filters.symbols.valueTo])
 
 
     return (
@@ -174,7 +201,7 @@ const DomainsContextProvider = ({children, Products, references,domainZones}: {
             debouncedGetProducts,
             isLast,
             page,
-            incrementPage
+            incrementPage,
         }}>
             {children}
         </DomainContext.Provider>

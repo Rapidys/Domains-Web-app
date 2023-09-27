@@ -20,7 +20,7 @@
   width: 70%;
 }
 
-@media screen and (max-width: 769px) {
+@media(max-width: 769px) {
   .product_wrapper{
     flex-direction: column;
     width: 100%;
@@ -30,5 +30,8 @@
   }
   .domain_list{
     width: 100%;
+  }
+  .main{
+    padding: 0;
   }
 }
